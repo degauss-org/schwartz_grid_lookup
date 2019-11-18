@@ -299,6 +299,13 @@
       "Repository": "CRAN",
       "Hash": "c2a574a14f5f45a84ead80391c3075d6"
     },
+    "geohashTools": {
+      "Package": "geohashTools",
+      "Version": "0.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "548ad111d232d95231beaea1c51ef857"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.1.0",
@@ -658,6 +665,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "d80f39f4db9c537a1def235969d648ea"
+    },
+    "renv": {
+      "Package": "renv",
+      "Version": "0.8.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "7bc455465f612b7f3452800c4c160be4"
     },
     "reprex": {
       "Package": "reprex",
