@@ -24,14 +24,23 @@ d_locs$.row <- 1:nrow(d_locs)
 get_closest_grid_site_index <- function(.row_index) {
   query_point <- d_locs[.row_index == d_locs$.row, ]
   ## query_point <- filter(d_locs, .row == .row_index)
-  query_gh5 <- lwgeom::st_geohash(query_point, precision = 5)
-  nearby_indices <- which(d_grid$gh5 == query_gh5)
+  query_gh6 <- lwgeom::st_geohash(query_point, precision = 6)
+  query_gh6_and_neighbors <- geohashTools::gh_neighbors(query_gh6, self = TRUE)
+  nearby_indices <- which(d_grid$gh6 %in% query_gh6_and_neighbors)
   nearby_points <- d_grid[nearby_indices, ]
-  nearest_point <- st_join(st_transform(query_point, 5072),
-                           st_transform(nearby_points, 5072),
-                           join = st_nearest_feature)
-  pull(nearest_point, 'site_index')
-  }
+  nearest_site_index <-
+    st_join(st_transform(query_point, 5072),
+            st_transform(nearby_points, 5072),
+            join = st_nearest_feature) %>%
+    pull('site_index')
+  return(nearest_site_index)
+  ## uncomment below to generate illustrative map
+  ## geohashTools::gh_to_sf(query_gh6_and_neighbors) %>%
+  ##   mapview::mapview() +
+  ##   mapview::mapview(query_point, color = 'red') +
+  ##   mapview::mapview(nearby_points) +
+  ##   mapview::mapview(nearby_points[nearby_points$site_index == nearest_site_index, 'geometry'], color = 'green')
+}
 
 ## get_closest_grid_site_index(3)
 ## map_dbl(d_locs$.row, get_closest_grid_site_index)
