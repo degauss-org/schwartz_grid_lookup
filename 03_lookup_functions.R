@@ -13,7 +13,7 @@ d_locs <-
             799697L, -84.41741798, 39.18541228, '2001-01-28',
             799698L, -84.41395064, 39.18322447, '2006-08-11',
           ) %>%
-  mutate(date = as.Date(date)) %>%
+  mutate(start_date = as.Date(start_date)) %>%
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>%
   mutate(end_date = start_date + 30)
 
