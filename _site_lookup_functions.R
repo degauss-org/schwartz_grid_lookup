@@ -6,16 +6,14 @@ d_grid <- readRDS('schwartz_grid_geohashed.rds')
 ## setup test input data
 d_locs <-
   tibble::tribble(
-            ~id,         ~lon,        ~lat,    ~ start_date,
-            809089L, -84.69127387, 39.24710734, '2014-06-04',
-            813233L, -84.47798287, 39.12005904, '2012-12-04',
-            814881L, -84.47123583,  39.2631309, '2006-08-15',
-            799697L, -84.41741798, 39.18541228, '2001-01-28',
-            799698L, -84.41395064, 39.18322447, '2006-08-11',
+            ~id,         ~lon,        ~lat,
+            809089L, -84.69127387, 39.24710734,
+            813233L, -84.47798287, 39.12005904,
+            814881L, -84.47123583,  39.2631309,
+            799697L, -84.41741798, 39.18541228,
+            799698L, -84.41395064, 39.18322447,
           ) %>%
-  mutate(start_date = as.Date(start_date)) %>%
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>%
-  mutate(end_date = start_date + 30)
 
 ## create a row index on the input data
 d_locs$.row <- 1:nrow(d_locs)
@@ -49,26 +47,3 @@ get_closest_grid_site_index <- function(.row_index) {
 d_locs <- d_locs %>%
   mutate(site_index = CB::mappp(d_locs$.row, get_closest_grid_site_index)) %>%
   unnest(cols = c(site_index))
-
-## outputs list of pm values for site index, start and end dates
-read_dates_for_an_index <- function(site_index, start_date, end_date) {
-  dates <- seq.Date(from = as.Date(start_date),
-                    to = as.Date(end_date),
-                    by = 1)
-  dates_file_names <- paste0('./pm_fst/', dates, '.fst')
-  map_dbl(dates_file_names, ~ fst::read_fst(path = .,
-                                            columns = 'pm',
-                                            from = site_index,
-                                            to = site_index)$pm)
-}
-
-read_dates_for_a_grid(site_index = 9616130,
-                      start_date = '2014-12-14',
-                      end_date = '2014-12-31')
-
-d_locs <- d_locs %>%
-  mutate(pm = pmap(list(site_index, start_date, end_date), read_dates_for_a_grid))
-
-
-##### try one using aws s3 (only for 2000 - 2001 right now)
-
