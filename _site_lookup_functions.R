@@ -16,7 +16,7 @@ d_locs <-
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>%
 
 ## create a row index on the input data
-d_locs$.row <- 1:nrow(d_locs)
+d_locs$.row <- seq_len(nrow(d_locs))
 
 ## takes row index (for d_locs) and outputs nearest site index
 get_closest_grid_site_index <- function(.row_index) {
