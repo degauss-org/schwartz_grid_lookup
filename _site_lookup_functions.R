@@ -1,4 +1,5 @@
-library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(sf)
 
 d_grid <- readRDS('schwartz_grid_geohashed.rds')
