@@ -2,6 +2,18 @@
 
 > given a lat/lon coordinate (soon to be an address), this code will return a `site_index`, which is an integer value specifying the nearest "grid point" for the Schwartz spatiotemporal pollutant models
 
+## Rscript example call
+
+```r
+./schwartz_grid_lookup.R my_address_file_geocoded.R
+```
+
+## DeGAUSS example call
+
+```sh
+docker run --rm -v $PWD:/code schwartz_grid_lookup:0.1 my_address_file_geocoded.R
+```
+
 ## geohash lookup procedure
 
 - the red dot below is the query point
