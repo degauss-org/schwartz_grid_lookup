@@ -269,6 +269,13 @@
       "Repository": "CRAN",
       "Hash": "ed4a691194af45374f99d2d700400240"
     },
+    "docopt": {
+      "Package": "docopt",
+      "Version": "0.6.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "63d6ce1faad3cc83dfb59a4f918f0b72"
+    },
     "dplyr": {
       "Package": "dplyr",
       "Version": "0.8.3",

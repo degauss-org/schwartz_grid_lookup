@@ -2,20 +2,21 @@ library(dplyr)
 library(tidyr)
 library(sf)
 
+message('loading geohashed schwartz grid site indices')
 d_grid <- readRDS('schwartz_grid_geohashed.rds')
 
-## setup test input data
-raw_data <-
-  tibble::tribble(
-            ~id,         ~lon,        ~lat,
-            809089L, -84.69127387, 39.24710734,
-            813233L, -84.47798287, 39.12005904,
-            814881L, -84.47123583,  39.2631309,
-            814888L, -84.47123583,  39.2631309,
-            799697L, -84.41741798, 39.18541228,
-            799697L,      NA     , 39.18541228,
-            799698L, -84.41395064, 39.18322447,
-          )
+## use docopt?
+
+doc <- '
+Usage:
+  schwartz_grid_lookup.R <filename>
+'
+
+opt <- docopt::docopt(doc)
+## for testing
+## opt <- docopt::docopt(doc, args = 'my_address_file_geocoded.csv')
+
+raw_data <- readr::read_csv(opt$filename)
 
 ## prepare data for calculations
 raw_data$.row <- seq_len(nrow(raw_data))
@@ -61,4 +62,8 @@ d <- d %>%
   unnest(cols = c(.rows)) %>%
   st_drop_geometry()
 
-out <- left_join(raw_data, d, by = '.row')
+out <- left_join(raw_data, d, by = '.row') %>% select(-.row)
+
+out_file_name <- paste0(tools::file_path_sans_ext(opt$filename), '_schwartz_site_index.csv')
+
+readr::write_csv(out, out_file_name)
