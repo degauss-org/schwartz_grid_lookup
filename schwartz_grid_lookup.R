@@ -52,9 +52,8 @@ get_closest_grid_site_index <- function(query_point) {
 ## get_closest_grid_site_index(query_point = pluck(d$geometry, 1))
 
 ## apply across all rows to get site indices
-## add options for parallel and cache??
 d <- d %>%
-  mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index)) %>%
+  mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index, parallel = TRUE)) %>%
   unnest(cols = c(site_index))
 
 ## merge back on .row after unnesting .rows into .row
