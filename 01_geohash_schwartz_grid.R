@@ -1,5 +1,5 @@
-library(tidyverse)
-library(sf)
+library(dplyr)
+library(tidyr)
 
 d_grid <-
   readRDS('USGridSite.rds') %>%
@@ -15,11 +15,11 @@ d_grid <-
 
 ## create geohash
 d_grid <- d_grid %>%
- mutate(gh5 = lwgeom::st_geohash(d_grid, precision = 5))
+ mutate(gh6 = lwgeom::st_geohash(d_grid, precision = 6))
 
 ## create site_index to use for lookup in date files
 d_grid <- d_grid %>%
-  mutate(site_index = 1:nrow(d_grid))
+  mutate(site_index = seq_len(nrow(d_grid)))
 
 ## export all for lookup in downstream code
 saveRDS(d_grid, 'schwartz_grid_geohashed.rds')
