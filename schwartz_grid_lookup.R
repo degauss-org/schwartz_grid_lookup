@@ -1,11 +1,8 @@
+#!/usr/local/bin/Rscript
+
 library(dplyr)
 library(tidyr)
 library(sf)
-
-message('loading geohashed schwartz grid site indices')
-d_grid <- readRDS('schwartz_grid_geohashed.rds')
-
-## use docopt?
 
 doc <- '
 Usage:
@@ -28,6 +25,9 @@ d <-
   group_by(lat, lon) %>%
   nest(.rows = c(.row)) %>%
   st_as_sf(coords = c('lon', 'lat'), crs = 4326)
+
+message('loading geohashed schwartz grid site indices...')
+d_grid <- readRDS('/code/schwartz_grid_geohashed.rds')
 
 ## use the below code to generate illustrative map *while within the function environment*
 ## geohashTools::gh_to_sf(query_gh6_and_neighbors) %>%
@@ -53,6 +53,7 @@ get_closest_grid_site_index <- function(query_point) {
 ## get_closest_grid_site_index(query_point = pluck(d$geometry, 1))
 
 ## apply across all rows to get site indices
+message('finding closest schwartz grid site index for each point...')
 d <- d %>%
   mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index, parallel = TRUE)) %>%
   unnest(cols = c(site_index))
