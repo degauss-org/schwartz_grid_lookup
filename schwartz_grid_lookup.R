@@ -27,7 +27,7 @@ d <-
   st_as_sf(coords = c('lon', 'lat'), crs = 4326)
 
 message('loading geohashed schwartz grid site indices...')
-d_grid <- readRDS('/code/schwartz_grid_geohashed.rds')
+d_grid <- readRDS('/app/schwartz_grid_geohashed.rds')
 
 ## use the below code to generate illustrative map *while within the function environment*
 ## geohashTools::gh_to_sf(query_gh6_and_neighbors) %>%
