@@ -15,16 +15,25 @@ shell:
 	docker run --rm -it --entrypoint=/bin/bash -v "${PWD}/test":/tmp $(IMAGE)
 
 release:
-	ifndef VERSION
-	$(error VERSION is not set)
-	endif
+ifndef VERSION
+$(error VERSION is not set. Usage: "make release VERSION=X.X")
+endif
+ifndef DOCKER_USERNAME
+$(error DOCKER_USERNAME is not set)
+endif
+ifndef DOCKER_PAT
+$(error DOCKER_PAT is not set)
+endif
 	git commit -am "Release for image version $(VERSION)" --allow-empty
 	git tag -a $(VERSION) -m "${VERSION}"
 	git push origin ${VERSION}
 	git push
-	echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+	echo "${DOCKER_PAT}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 	docker tag ${IMAGE}:latest ${IMAGE}:${VERSION}
 	docker push ${IMAGE}:${VERSION}
+	docker push ${IMAGE}:latest
 
 clean:
+	docker rmi ${IMAGE}:${VERSION}
+	docker rmi ${IMAGE}:latest
 	docker system prune -f
