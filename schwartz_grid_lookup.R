@@ -3,6 +3,7 @@
 library(dplyr)
 library(tidyr)
 library(sf)
+library(data.table)
 
 doc <- '
 Usage:
@@ -28,13 +29,14 @@ d <-
 
 message('\nloading geohashed schwartz grid site indices...')
 d_grid <- readRDS('/app/schwartz_grid_geohashed.rds')
+## for testing
+## d_grid <- readRDS('schwartz_grid_geohashed.rds')
 
 get_closest_grid_site_index <- function(query_point) {
   query_point <- st_sfc(query_point, crs = 4326)
   query_gh6 <- lwgeom::st_geohash(query_point, precision = 6)
-  query_gh6_and_neighbors <- geohashTools::gh_neighbors(query_gh6, self = TRUE)
-  nearby_indices <- which(d_grid$gh6 %in% query_gh6_and_neighbors)
-  nearby_points <- d_grid[nearby_indices, ]
+  query_gh6_and_neighbors <- geohashTools::gh_neighbors(query_gh6, self = TRUE) %>% unlist()
+  nearby_points <- d_grid[.(query_gh6_and_neighbors), nomatch = 0L] %>% st_as_sf()
   which_nearest <-
     st_distance(query_point, nearby_points, by_element = TRUE) %>%
     which.min()
@@ -50,9 +52,7 @@ message('\nfinding closest schwartz grid site index for each point...')
 d <- d %>%
   mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index,
                                 parallel = FALSE,
-                                cache = TRUE,
-                                quiet = FALSE,
-                                cache.name = 'schwartz_grid_lookup_cache' )) %>%
+                                quiet = FALSE)) %>%
   unnest(cols = c(site_index))
 
 ## merge back on .row after unnesting .rows into .row

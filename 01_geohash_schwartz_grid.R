@@ -1,5 +1,6 @@
 library(dplyr)
 library(tidyr)
+library(data.table)
 
 d_grid <-
   readRDS('USGridSite.rds') %>%
@@ -21,5 +22,8 @@ d_grid <- d_grid %>%
 d_grid <- d_grid %>%
   mutate(site_index = seq_len(nrow(d_grid)))
 
+## index on geohash column using data.table
+d_grid_dt <- as.data.table(d_grid, key = 'gh6')
+
 ## export all for lookup in downstream code
-saveRDS(d_grid, 'schwartz_grid_geohashed.rds')
+saveRDS(d_grid_dt, 'schwartz_grid_geohashed.rds')

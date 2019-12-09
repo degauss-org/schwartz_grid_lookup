@@ -193,6 +193,13 @@
       "RemoteSha": "1.0.0",
       "Hash": "4ac529753d1e529966ef675d7f0c762b"
     },
+    "data.table": {
+      "Package": "data.table",
+      "Version": "1.12.8",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "cd711af60c47207a776213a368626369"
+    },
     "digest": {
       "Package": "digest",
       "Version": "0.6.23",
