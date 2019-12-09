@@ -14,7 +14,7 @@ docker run --rm -v $PWD:/tmp degauss/schwartz_grid_lookup:0.1 my_address_file_ge
 - its surrounding box is what is was geohashed to (precision = 6)
 - neighboring boxes are added
 - schwartz "grid" points that are geohashed within these boxes are extracted
-- points are projected to epsg 5072 and the index of the point closest to the query point is returned (highlighted in green)
+- the index of the point closest to the query point, based on the great circle distance, is returned (highlighted in green)
 
 ![example_schwartz_lookup](example_schwartz_lookup.png)
 

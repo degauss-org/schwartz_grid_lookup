@@ -43,8 +43,8 @@ get_closest_grid_site_index <- function(query_point) {
   nearby_indices <- which(d_grid$gh6 %in% query_gh6_and_neighbors)
   nearby_points <- d_grid[nearby_indices, ]
   which_nearest <-
-    st_nearest_feature(st_transform(query_point, 5072),
-                       st_transform(nearby_points, 5072))
+    st_distance(query_point, nearby_points, by_element = TRUE) %>%
+    which.min()
   nearby_points %>%
     slice(which_nearest) %>%
     pull('site_index')
