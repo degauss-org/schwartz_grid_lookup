@@ -48,7 +48,11 @@ get_closest_grid_site_index <- function(query_point) {
 ## apply across all rows to get site indices
 message('\nfinding closest schwartz grid site index for each point...')
 d <- d %>%
-  mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index, parallel = TRUE)) %>%
+  mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index,
+                                parallel = FALSE,
+                                cache = TRUE,
+                                quiet = FALSE,
+                                cache.name = 'schwartz_grid_lookup_cache' )) %>%
   unnest(cols = c(site_index))
 
 ## merge back on .row after unnesting .rows into .row
