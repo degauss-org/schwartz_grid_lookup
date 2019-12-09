@@ -11,7 +11,7 @@ Usage:
 
 opt <- docopt::docopt(doc)
 ## for testing
-## opt <- docopt::docopt(doc, args = 'my_address_file_geocoded.csv')
+## opt <- docopt::docopt(doc, args = 'test/my_address_file_geocoded.csv')
 
 raw_data <- readr::read_csv(opt$filename)
 
@@ -26,15 +26,8 @@ d <-
   nest(.rows = c(.row)) %>%
   st_as_sf(coords = c('lon', 'lat'), crs = 4326)
 
-message('loading geohashed schwartz grid site indices...')
+message('\nloading geohashed schwartz grid site indices...')
 d_grid <- readRDS('/app/schwartz_grid_geohashed.rds')
-
-## use the below code to generate illustrative map *while within the function environment*
-## geohashTools::gh_to_sf(query_gh6_and_neighbors) %>%
-##   mapview::mapview() +
-##   mapview::mapview(query_point, color = 'red') +
-##   mapview::mapview(nearby_points) +
-##   mapview::mapview(nearby_points[nearby_points$site_index == nearest_site_index, 'geometry'], color = 'green')
 
 get_closest_grid_site_index <- function(query_point) {
   query_point <- st_sfc(query_point, crs = 4326)
@@ -50,10 +43,10 @@ get_closest_grid_site_index <- function(query_point) {
     pull('site_index')
 }
 
-## get_closest_grid_site_index(query_point = pluck(d$geometry, 1))
+## get_closest_grid_site_index(query_point = purrr::pluck(d$geometry, 1))
 
 ## apply across all rows to get site indices
-message('finding closest schwartz grid site index for each point...')
+message('\nfinding closest schwartz grid site index for each point...')
 d <- d %>%
   mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index, parallel = TRUE)) %>%
   unnest(cols = c(site_index))
@@ -66,5 +59,5 @@ d <- d %>%
 out <- left_join(raw_data, d, by = '.row') %>% select(-.row)
 
 out_file_name <- paste0(tools::file_path_sans_ext(opt$filename), '_schwartz_site_index.csv')
-
 readr::write_csv(out, out_file_name)
+message('\nFINISHED! output written to ', out_file_name)
