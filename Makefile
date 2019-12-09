@@ -16,13 +16,13 @@ shell:
 
 release:
 ifndef VERSION
-$(error VERSION is not set. Usage: "make release VERSION=X.X")
+	$(error VERSION is not set. Usage: "make release VERSION=X.X")
 endif
 ifndef DOCKER_USERNAME
-$(error DOCKER_USERNAME is not set)
+	$(error DOCKER_USERNAME is not set)
 endif
 ifndef DOCKER_PAT
-$(error DOCKER_PAT is not set)
+	$(error DOCKER_PAT is not set)
 endif
 	git commit -am "Release for image version $(VERSION)" --allow-empty
 	git tag -a $(VERSION) -m "${VERSION}"
@@ -34,6 +34,4 @@ endif
 	docker push ${IMAGE}:latest
 
 clean:
-	docker rmi ${IMAGE}:${VERSION}
-	docker rmi ${IMAGE}:latest
 	docker system prune -f
