@@ -32,6 +32,7 @@ d_grid <- readRDS('/app/schwartz_grid_geohashed.rds')
 ## for testing
 ## d_grid <- readRDS('schwartz_grid_geohashed.rds')
 
+
 get_closest_grid_site_index <- function(query_point) {
   query_point <- st_sfc(query_point, crs = 4326)
   query_gh6 <- lwgeom::st_geohash(query_point, precision = 6)
@@ -42,7 +43,8 @@ get_closest_grid_site_index <- function(query_point) {
     which.min()
   nearby_points %>%
     slice(which_nearest) %>%
-    pull('site_index')
+    st_drop_geometry() %>%
+    select(site_index, SiteCode)
 }
 
 ## get_closest_grid_site_index(query_point = purrr::pluck(d$geometry, 1))
