@@ -50,11 +50,12 @@ get_closest_grid_site_index <- function(query_point) {
 ## get_closest_grid_site_index(query_point = purrr::pluck(d$geometry, 1))
 
 ## apply across all rows to get site indices
-message('\nfinding closest schwartz grid site index for each point...')
+message("\nfinding closest schwartz grid site index for each point...")
 d <- d %>%
-  mutate(site_index = CB::mappp(d$geometry, get_closest_grid_site_index,
-                                parallel = FALSE,
-                                quiet = FALSE)) %>%
+  mutate(site_index = mappp::mappp(d$geometry, get_closest_grid_site_index,
+    parallel = FALSE,
+    quiet = FALSE
+  )) %>%
   unnest(cols = c(site_index))
 
 ## merge back on .row after unnesting .rows into .row
