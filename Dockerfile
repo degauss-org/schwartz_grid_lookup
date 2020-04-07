@@ -18,7 +18,7 @@ RUN apt-get update \
 COPY renv.lock .
 RUN R --quiet -e "renv::restore()"
 
-COPY schwartz_grid_geohashed.rds .
+COPY schwartz_grid_geohashed.qs .
 COPY schwartz_grid_lookup.R .
 
 WORKDIR /tmp

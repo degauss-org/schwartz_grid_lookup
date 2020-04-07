@@ -2,17 +2,14 @@ library(dplyr)
 library(tidyr)
 library(data.table)
 
+# read in grid taking only the first 11,196,911 rows (grid centroids)
+## the last 21,111 extra points are monitoring stations and can be discarded
 d_grid <-
   readRDS('USGridSite.rds') %>%
   as_tibble() %>%
   rename(x = Lon, y = Lat) %>%
-  ## filter(x > -126 & x < -67,
-  ##        y > 24 & y < 50) %>%
+  slice(1:11196911) %>%
   sf::st_as_sf(coords = c('x', 'y'), crs = 4326)
-
-# 11,218,022 rows
-# SiteCode is a character made up of numbers, 12 digits long
-# bounding box for US in lat/lon would be ((-126, 24) - (-67, 50))
 
 ## create geohash
 d_grid <- d_grid %>%
@@ -26,4 +23,7 @@ d_grid <- d_grid %>%
 d_grid_dt <- as.data.table(d_grid, key = 'gh6')
 
 ## export all for lookup in downstream code
-saveRDS(d_grid_dt, 'schwartz_grid_geohashed.rds')
+qs::qsave(d_grid_dt, "schwartz_grid_geohashed.qs")
+
+## save to S3
+system2("aws", "s3 cp schwartz_grid_geohashed.qs s3://geomarker/schwartz/schwartz_grid_geohashed.qs")

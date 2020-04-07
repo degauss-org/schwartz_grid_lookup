@@ -54,6 +54,13 @@
       "Repository": "CRAN",
       "Hash": "292b54f8f4b94669b08f94e5acce6be2"
     },
+    "RApiSerialize": {
+      "Package": "RApiSerialize",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "c5a68b4db79cfe8502878b3ed2b59853"
+    },
     "Rcpp": {
       "Package": "Rcpp",
       "Version": "1.0.3",
@@ -308,6 +315,13 @@
       "RemotePkgType": "source",
       "RemoteSha": "0.3.3",
       "Hash": "22aca7d1181718e927d403a8c2d69d62"
+    },
+    "qs": {
+      "Package": "qs",
+      "Version": "0.21.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3a05d71c75ad4e6e92fe89aa6864c92a"
     },
     "readr": {
       "Package": "readr",

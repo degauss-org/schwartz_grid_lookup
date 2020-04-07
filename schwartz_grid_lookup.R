@@ -28,10 +28,9 @@ d <-
   st_as_sf(coords = c('lon', 'lat'), crs = 4326)
 
 message('\nloading geohashed schwartz grid site indices...')
-d_grid <- readRDS('/app/schwartz_grid_geohashed.rds')
+d_grid <- qs::qread("/app/schwartz_grid_geohashed.qs")
 ## for testing
-## d_grid <- readRDS('schwartz_grid_geohashed.rds')
-
+## d_grid <- qs::qread("schwartz_grid_geohashed.qs")
 
 get_closest_grid_site_index <- function(query_point) {
   query_point <- st_sfc(query_point, crs = 4326)
