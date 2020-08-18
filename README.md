@@ -23,4 +23,4 @@ docker run --rm -v $PWD:/tmp degauss/schwartz_grid_lookup:0.3 my_address_file_ge
 
 ## geomarker data
 
-- script relies on [`schwartz_grid_geohashed.qs`](https://geomarker.s3.us-east-2.amazonaws.com/schwartz/schwartz_grid_geohashed.qs), which is made by running `01_geohash_schwartz_grid.R` on [`USGridSite.rds`](https://geomarker.s3.us-east-2.amazonaws.com/schwartz/USGridSite.rds) (originally retrieved from Google Drive share by QD)
+- script relies on `s3://geomarker/schwartz/schwartz_grid_geohashed.qs`, which is made by running `01_geohash_schwartz_grid.R` on `s3://geomarker/schwartz/USGrid_Sites_1km_20200618.csv`

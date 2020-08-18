@@ -43,7 +43,7 @@ get_closest_grid_site_index <- function(query_point) {
   nearby_points %>%
     slice(which_nearest) %>%
     st_drop_geometry() %>%
-    select(site_index, SiteCode)
+    select(site_index, sitecode)
 }
 
 ## get_closest_grid_site_index(query_point = purrr::pluck(d$geometry, 1))

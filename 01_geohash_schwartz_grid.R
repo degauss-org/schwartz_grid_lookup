@@ -2,16 +2,15 @@ library(dplyr)
 library(tidyr)
 library(data.table)
 
-# read in grid taking only the first 11,196,911 rows (grid centroids)
-## the last 21,111 extra points are monitoring stations and can be discarded
-d_grid <-
-  readRDS('USGridSite.rds') %>%
-  as_tibble() %>%
-  rename(x = Lon, y = Lat) %>%
-  slice(1:11196911) %>%
-  sf::st_as_sf(coords = c('x', 'y'), crs = 4326)
+# download and read in latest grid file from jeff/heike
+system2("aws", "s3 cp s3://geomarker/schwartz/USGrid_Sites_1km_20200618.csv USGrid_Sites_1km_20200618.csv")
 
-## create geohash
+# read in grid centroids
+d_grid <-
+  readr::read_csv('USGrid_Sites_1km_20200618.csv', col_types = "cdd") %>%
+  sf::st_as_sf(coords = c('lon', 'lat'), crs = 4326)
+
+## geohash
 d_grid <- d_grid %>%
  mutate(gh6 = lwgeom::st_geohash(d_grid, precision = 6))
 
