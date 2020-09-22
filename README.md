@@ -15,6 +15,7 @@ docker run --rm -v $PWD:/tmp degauss/schwartz_grid_lookup:0.4 my_address_file_ge
 
 - the red dot below is the query point
 - its surrounding box is what is was geohashed to (precision = 6)
+- h2 geohashes are used to quickly determine nearby points; this also provides an index to download and extract spatiotemporal exposure estimates (see more details here: https://s2geometry.io/)
 - neighboring boxes are added
 - schwartz "grid" points that are geohashed within these boxes are extracted
 - the index of the point closest to the query point, based on the great circle distance, is returned (highlighted in green)
