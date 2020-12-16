@@ -8,7 +8,7 @@
 ## DeGAUSS example call
 
 ```sh
-docker run --rm -v $PWD:/tmp degauss/schwartz_grid_lookup:0.4 my_address_file_geocoded.csv
+docker run --rm -v $PWD:/tmp degauss/schwartz_grid_lookup:0.4.1 my_address_file_geocoded.csv
 ```
 
 ## geomarker methods
