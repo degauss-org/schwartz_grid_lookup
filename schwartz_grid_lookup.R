@@ -1,9 +1,9 @@
 #!/usr/local/bin/Rscript
 
-library(dplyr)
-library(tidyr)
-library(sf)
-library(data.table)
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(sf))
+suppressPackageStartupMessages(library(data.table))
 
 doc <- '
 Usage:
