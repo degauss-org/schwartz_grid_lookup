@@ -1,5 +1,7 @@
 # schwartz_grid_lookup
 
+**🛑 _Archived_ 🛑 The cloud files used in this degauss container are not available. Please find newer estimates on SEDAC.**
+
 > given a lat/lon coordinate, this DeGAUSS container returns a `site_index` and a `sitecode`, which are values specifying the nearest "grid" centroid point for the Schwartz spatiotemporal pollutant models
 
 [![Docker Build Status](https://img.shields.io/docker/automated/degauss/schwartz_grid_lookup)](https://hub.docker.com/repository/docker/degauss/schwartz_grid_lookup/tags)
